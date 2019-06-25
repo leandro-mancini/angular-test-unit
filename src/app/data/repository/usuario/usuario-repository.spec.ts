@@ -48,10 +48,11 @@ describe('data: UsuarioRepository', () => {
       password: '123'
     };
 
-    usuarioRepository.login(param).subscribe(res => {
+    usuarioRepository.login(param).subscribe((res: UsuarioModel) => {
       if (res) {
         expect(res).toBeTruthy();
-        expect(res).toEqual(new UsuarioModel());
+        expect(res.id).toEqual(1);
+        expect(res.nome).toEqual(param.username);
       }
     });
 

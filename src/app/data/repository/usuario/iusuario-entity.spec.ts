@@ -1,7 +1,7 @@
 import { IUsuarioEntity } from './iusuario-entity';
 
 describe('IUsuarioEntity', () => {
-  it('should create an instance', () => {
+  it('deve ser criado uma instancia', () => {
     expect(new IUsuarioEntity()).toBeTruthy();
   });
 });

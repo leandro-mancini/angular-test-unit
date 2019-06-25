@@ -5,8 +5,11 @@ import { UsuarioRequest } from '../../request/usuario-request';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { map } from 'rxjs/operators';
+import { UsuarioMapper } from './usuario-mapper';
 
 export class UsuarioRepository implements IUsuarioRepository {
+
+  private mapper = new UsuarioMapper();
 
   constructor(private http: HttpClient) { }
 
@@ -15,7 +18,7 @@ export class UsuarioRepository implements IUsuarioRepository {
       .get<UsuarioRequest>(environment.serverUrl + '/usuarios?username=' + param.username + '&senha=' + param.password + '')
       .pipe(map((item) => {
         if (item[0]) {
-          return new UsuarioModel();
+          return this.mapper.mapFrom(item[0]);
         }
 
         return null;
