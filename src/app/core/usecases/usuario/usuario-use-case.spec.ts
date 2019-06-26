@@ -18,7 +18,6 @@ class MockUsuarioRepository {
 describe('UsuarioUseCase', () => {
   let usuarioUseCase: UsuarioUseCase;
   let usuarioRepository: MockUsuarioRepository;
-  let spy: any;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -37,18 +36,16 @@ describe('UsuarioUseCase', () => {
     expect(usuarioUseCase).toBeTruthy();
   });
 
-  it('deve retornar true o metodo login', () => {
+  it('deve executar o metodo login', () => {
     const usuario = new UsuarioRequest();
 
     usuario.username = 'test';
     usuario.password = '123456';
 
-    spy = spyOn(usuarioRepository, 'login').and.returnValue(of(new UsuarioModel()));
-    expect(usuarioRepository.login(usuario)).toBeTruthy();
+    usuarioUseCase.login(usuario);
   });
 
-  it('deve retornar true o metodo logout', () => {
-    spy = spyOn(usuarioRepository, 'logout').and.returnValue(of(true));
-    expect(usuarioRepository.logout()).toBeTruthy();
+  it('deve executar o metodo logout', () => {
+    usuarioUseCase.logout();
   });
 });
