@@ -43,9 +43,11 @@ describe('UsuarioUseCase', () => {
     usuario.password = '123456';
 
     usuarioUseCase.login(usuario);
+    expect(usuarioUseCase.login(usuario)).toBeTruthy();
   });
 
   it('deve executar o metodo logout', () => {
     usuarioUseCase.logout();
+    expect(usuarioUseCase.logout()).toBeTruthy();
   });
 });

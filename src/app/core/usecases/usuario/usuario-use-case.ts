@@ -9,7 +9,7 @@ import { UsuarioRepository } from '../../../data/repository/usuario/usuario-repo
 @Injectable({
   providedIn: 'root'
 })
-export class UsuarioUseCase implements IUsuarioUseCase<UsuarioRequest, UsuarioModel> {
+export class UsuarioUseCase implements IUsuarioUseCase {
 
   constructor(
     private usuarioRepository: UsuarioRepository
