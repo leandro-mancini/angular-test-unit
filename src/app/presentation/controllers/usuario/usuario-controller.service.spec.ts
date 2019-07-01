@@ -3,32 +3,22 @@ import { TestBed } from '@angular/core/testing';
 import { UsuarioControllerService } from './usuario-controller.service';
 import { UsuarioRequest } from '../../../data/request/usuario-request';
 import { IUsuarioUseCase } from 'src/app/core/interfaces/usecases/iusuario-use-case';
-import { of, Observable } from 'rxjs';
-import { UsuarioModel } from 'src/app/core/domain/entity/usuario-model';
-
-class MockIUsuarioUseCase extends IUsuarioUseCase {
-  login(param: UsuarioRequest): Observable<UsuarioModel> {
-    return of(new UsuarioModel());
-  }
-
-  logout(): Observable<boolean> {
-    return of(true);
-  }
-}
 
 describe('UsuarioControllerService', () => {
   let usuarioController: UsuarioControllerService;
-  let usuarioUseCase: MockIUsuarioUseCase;
+  let valueServiceSpy: jasmine.SpyObj<IUsuarioUseCase>;
 
   beforeEach(() => {
+    const spy = jasmine.createSpyObj('IUsuarioUseCase', ['login', 'logout']);
+
     TestBed.configureTestingModule({
       providers: [
-        { provider: IUsuarioUseCase, useClass: MockIUsuarioUseCase }
+        { provide: IUsuarioUseCase, useValue: spy }
       ]
     });
 
-    usuarioUseCase = new MockIUsuarioUseCase();
-    usuarioController = new UsuarioControllerService(usuarioUseCase);
+    valueServiceSpy = TestBed.get(IUsuarioUseCase);
+    usuarioController = TestBed.get(UsuarioControllerService);
   });
 
   it('deve ser criado', () => {
@@ -38,15 +28,17 @@ describe('UsuarioControllerService', () => {
   it('deve retornar true o metodo login', () => {
     const usuario = new UsuarioRequest();
 
-    spyOn(usuarioUseCase, 'logout').and.returnValue(of(true));
-
     usuario.username = 'test';
     usuario.password = '123456';
 
-    expect(usuarioController.login(usuario)).toBeTruthy();
+    usuarioController.login(usuario);
+
+    expect(valueServiceSpy.login.calls.count()).toBe(1);
   });
 
   it('deve retornar true o metodo logout', () => {
-    expect(usuarioController.logout()).toBeTruthy();
+    usuarioController.logout();
+
+    expect(valueServiceSpy.logout.calls.count()).toBe(1);
   });
 });
